@@ -1,0 +1,6 @@
+@AnaliseBI_HostAddress = http://localhost:5115
+
+GET {{AnaliseBI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
