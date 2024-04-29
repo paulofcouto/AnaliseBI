@@ -48,8 +48,8 @@ namespace AnaliseBI.Application.Services
                         {
                             await _saleRepository.DeleteAll();
                             await _saleRepository.AddSales(sales);
-                            //File.Move(file.FullName, Path.Combine(processedFilesPath, file.Name));
-                            //DeleteFiles(originDirectoryFTPPath);
+                            File.Move(file.FullName, Path.Combine(processedFilesPath, $"{DateTime.Now.ToString("dd-MM-yyyy HH-mm-ss")} - {file.Name}"));
+                            DeleteFiles(originDirectoryFTPPath);
                             transaction.Commit();
                         }
                     }
