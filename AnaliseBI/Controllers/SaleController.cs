@@ -8,10 +8,11 @@ namespace AnaliseBI.Controllers
     public class SaleController : Controller
     {
         private readonly SaleService _saleService;
-        public SaleController(SaleService saleService) {
+
+        public SaleController(SaleService saleService)
+        {
             _saleService = saleService;
         }
-
 
         [HttpPost("ProcessFile")]
         public async Task<IActionResult> ProcessFile()
@@ -19,11 +20,11 @@ namespace AnaliseBI.Controllers
             try
             {
                 await _saleService.ProcessFile();
-                return Ok("Arquivo processado com sucesso.");
+                return Ok("Arquivo processsado com sucesso");
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Erro ao processar o arquivo: {ex.Message}");
+                return StatusCode(500, ex.Message);
             }
         }
     }

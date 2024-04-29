@@ -1,6 +1,18 @@
 # AnaliseBI
 
+Para iniciar o projeto, será necessário criar o banco de dados e para isso você pode utilizar duas formas:
 
+**Solução 1**
+
+1. Crie uma banco de dados utilizando os seguintes paramêtros
+   - server: localhost
+   - port: 4040
+   - user: root
+   - password: 123456
+
+2. Rode o script abaixo para criar diretamente no banco de dados:
+
+```sql
 CREATE DATABASE IF NOT EXISTS stage;
 USE stage;
 
@@ -32,3 +44,9 @@ CREATE TABLE IF NOT EXISTS stage.MultiStore (
     Discount DECIMAL(18, 2),
     Profit DECIMAL(18, 2)
 );
+```
+
+**Solução 2**
+
+Abra o projeto no visual studio, clique em 'Tools' > 'NuGet Package Manager' > 'Package Manager Console'.
+No console que se abriu, digite o comando 'Update-Database', os arquivos de configuração, irão criar todas as configurações necessárias para iniciar o projeto.

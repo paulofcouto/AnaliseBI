@@ -22,36 +22,42 @@ namespace AnaliseBI.Application.Services
             string? originDirectoryFTPPath = _configuration["MySettings:OriginDirectoryFTPPath"];
             string? processedFilesPath = _configuration["MySettings:ProcessedFilesPath"];
 
-            if (originDirectoryFTPPath != null && processedFilesPath != null)
+            if (string.IsNullOrEmpty(originDirectoryFTPPath) || string.IsNullOrEmpty(processedFilesPath))
             {
-                FileInfo[] files = new DirectoryInfo(originDirectoryFTPPath).GetFiles("*.xlsx").OrderByDescending(f => f.CreationTime).ToArray();
+                throw new InvalidOperationException("As configurações de diretório de FTP ou diretório de arquivos processados estão ausentes.");
+            }
 
-                using (var transaction = _saleRepository.BeginTransaction())
+            FileInfo[] files = new DirectoryInfo(originDirectoryFTPPath).GetFiles("*.xlsx").OrderByDescending(f => f.CreationTime).ToArray();
+
+            if (files.Length == 0)
+            {
+                throw new InvalidOperationException("Nenhum arquivo .XLSX encontrado no diretório de FTP.");
+            }
+
+            using (var transaction = _saleRepository.BeginTransaction())
+            {
+                try
                 {
-                    try
+                    var file = files.FirstOrDefault();
+
+                    if (file != null)
                     {
-                        var file = files.FirstOrDefault();
+                        var sales = ReadExcelFile(file.FullName);
 
-                        if (file != null)
+                        if (sales != null)
                         {
-                            var sales = ReadExcelFile(file.FullName);
-
-                            if (sales != null)
-                            {
-
-                                await _saleRepository.DeleteAll();
-                                await _saleRepository.AddSales(sales);
-                                File.Move(file.FullName, Path.Combine(processedFilesPath, file.Name));
-                                DeleteFiles(originDirectoryFTPPath);
-                                transaction.Commit();
-                            }
+                            await _saleRepository.DeleteAll();
+                            await _saleRepository.AddSales(sales);
+                            //File.Move(file.FullName, Path.Combine(processedFilesPath, file.Name));
+                            //DeleteFiles(originDirectoryFTPPath);
+                            transaction.Commit();
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        transaction.Rollback();
-                        Console.WriteLine($"Erro ao processar o arquivo '{files.First()?.FullName}': {ex.Message}");
-                    }
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw new InvalidOperationException($"Erro ao processar o arquivo '{files.FirstOrDefault()?.FullName}': {ex.Message}");
                 }
             }
         }
