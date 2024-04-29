@@ -10,7 +10,7 @@ namespace AnaliseBI.Infrastructure.MySql
 
         }
 
-        public DbSet<SaleModel> Sale { get; set; }
+        public DbSet<SaleModel> MultiStore { get; set; }
 
     }
 }

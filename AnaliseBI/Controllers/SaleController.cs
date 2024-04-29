@@ -13,12 +13,18 @@ namespace AnaliseBI.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("ProcessFile")]
         public async Task<IActionResult> ProcessFile()
         {
-            await _saleService.ProcessFile();
-
-            return Ok("Ordens adicionadas com sucesso.");
+            try
+            {
+                await _saleService.ProcessFile();
+                return Ok("Arquivo processado com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Erro ao processar o arquivo: {ex.Message}");
+            }
         }
     }
 }
