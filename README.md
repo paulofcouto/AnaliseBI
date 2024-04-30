@@ -1,16 +1,18 @@
 # AnaliseBI
 
-Para iniciar o projeto, será necessário criar o banco de dados e para isso você pode utilizar duas formas:
+Para iniciar o projeto, inicialmente crie uma conexão com MySQL Workbench utilizando os seguintes paramêtros:
+
+- server: localhost
+- port: 4040
+- user: root
+- password: 123456
+![image](https://github.com/paulofcouto/AnaliseBI/assets/22281160/bb33700d-24fb-4ade-9518-340f7b988427)
+
+Agora será necessário criar o banco de dados e para isso você pode utilizar duas formas:
 
 **Solução 1**
 
-1. Crie uma banco de dados utilizando os seguintes paramêtros
-   - server: localhost
-   - port: 4040
-   - user: root
-   - password: 123456
-
-2. Rode o script abaixo para criar diretamente no banco de dados:
+Rode o script abaixo para criar diretamente no banco de dados:
 
 ```sql
 CREATE DATABASE IF NOT EXISTS stage;
