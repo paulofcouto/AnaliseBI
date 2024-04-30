@@ -6,6 +6,7 @@ Para iniciar o projeto, inicialmente crie uma conexão com MySQL Workbench utili
 - port: 4040
 - user: root
 - password: 123456
+  
 ![image](https://github.com/paulofcouto/AnaliseBI/assets/22281160/bb33700d-24fb-4ade-9518-340f7b988427)
 
 Agora será necessário criar o banco de dados e para isso você pode utilizar duas formas:
